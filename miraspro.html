@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>میراث پرو | جدید اسلامی وراثت کیلکولیٹر</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #059669;
+      --primary-dark: #047857;
+      --primary-soft: #ecfdf5;
+      --accent: #d97706;
+      --accent-soft: #fffbeb;
+      --danger: #dc2626;
+      --danger-soft: #fef2f2;
+      --info: #2563eb;
+      --info-soft: #eff6ff;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 4px 10px -4px rgba(15, 23, 42, 0.04);
+      --radius: 18px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
+      --border: #273449;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-soft: rgba(16, 185, 129, 0.14);
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.14);
+      --danger: #f87171;
+      --danger-soft: rgba(248, 113, 113, 0.14);
+      --info: #60a5fa;
+      --info-soft: rgba(96, 165, 250, 0.14);
+      --shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Naskh Arabic', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    /* Header */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--surface) 84%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+
+    .brand-icon {
+      width: 44px; height: 44px; border-radius: 14px;
+      background: linear-gradient(135deg, #059669, #0d9488);
+      color: #fff; display: grid; place-items: center;
+      font-weight: 700; font-size: 20px;
+      box-shadow: 0 8px 18px rgba(5, 150, 105, 0.28);
+    }
+
+    .brand-title { font-size: 1.25rem; font-weight: 700; line-height: 1.3; }
+    .brand-sub { font-size: 0.78rem; color: var(--text-muted); }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 11px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #0d9488);
+      color: #fff; border: none;
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.25);
+    }
+    .btn-primary:hover { color: #fff; filter: brightness(1.06); }
+
+    /* Presets Bar */
+    .presets-bar {
+      max-width: 1320px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .presets-label { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); margin-left: 6px; }
+
+    .chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .chip:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+
+    /* Main Grid */
+    .container {
+      max-width: 1320px;
+      margin: 18px auto 48px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-title { font-size: 1.12rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .badge-emerald { background: var(--primary-soft); color: var(--primary); }
+    .badge-amber { background: var(--accent-soft); color: var(--accent); }
+    .badge-danger { background: var(--danger-soft); color: var(--danger); }
+    .badge-info { background: var(--info-soft); color: var(--info); }
+
+    /* Segmented Gender Toggle */
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--surface-2);
+      padding: 5px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .seg-btn {
+      border: none; background: transparent; color: var(--text-muted);
+      padding: 10px; border-radius: 9px; font-family: inherit;
+      font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease;
+    }
+    .seg-btn.active {
+      background: var(--primary); color: #fff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.28);
+    }
+
+    /* Radd Setting Box */
+    .setting-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 13px;
+      background: var(--primary-soft);
+      border: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+      margin-bottom: 16px;
+    }
+
+    .setting-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+    .setting-sub { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Form Grid */
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 0.86rem; font-weight: 600; color: var(--text-muted); display: flex; justify-content: space-between; }
+
+    .input-wrap {
+      display: flex; align-items: center; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .input-wrap:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+
+    .input-wrap input, .input-wrap select {
+      width: 100%; border: none; background: transparent; color: var(--text);
+      padding: 11px 14px; font-family: inherit; font-size: 0.98rem; font-weight: 600; outline: none;
+    }
+    .input-wrap select { width: auto; border-right: 1px solid var(--border); background: var(--surface); cursor: pointer; }
+
+    .will-warning {
+      margin-top: 8px; padding: 10px 12px; border-radius: 10px;
+      background: var(--accent-soft); color: var(--accent);
+      font-size: 0.84rem; font-weight: 600; display: none;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px;
+      margin-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      white-space: nowrap; border: 1px solid transparent; background: var(--surface-2);
+      color: var(--text-muted); padding: 8px 14px; border-radius: 10px;
+      font-family: inherit; font-size: 0.88rem; font-weight: 700; cursor: pointer;
+      transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .tab-btn.active { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+
+    .tab-count {
+      background: var(--primary); color: #fff; font-size: 0.72rem;
+      padding: 1px 6px; border-radius: 999px; display: none;
+    }
+    .tab-count.show { display: inline-block; }
+
+    /* Heirs Grid */
+    .heirs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (max-width: 560px) { .heirs-grid { grid-template-columns: 1fr; } }
+
+    .heir-item {
+      background: var(--surface-2); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 12px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; transition: all 0.2s ease;
+    }
+    .heir-item.selected { background: var(--primary-soft); border-color: var(--primary); }
+
+    .heir-info { display: flex; flex-direction: column; }
+    .heir-name { font-weight: 700; font-size: 0.96rem; }
+    .heir-sub { font-size: 0.76rem; color: var(--text-muted); }
+
+    .stepper {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--surface); padding: 4px; border-radius: 10px; border: 1px solid var(--border);
+    }
+
+    .step-btn {
+      width: 30px; height: 30px; border-radius: 8px; border: none;
+      background: var(--surface-2); color: var(--text); font-size: 1.1rem;
+      font-weight: 700; cursor: pointer; display: grid; place-items: center; transition: all 0.15s ease;
+    }
+    .step-btn:hover { background: var(--primary); color: #fff; }
+    .step-val { min-width: 24px; text-align: center; font-weight: 700; font-size: 0.95rem; }
+
+    /* Toggle Switch */
+    .switch { position: relative; width: 48px; height: 26px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: var(--border); border-radius: 999px; transition: 0.25s;
+    }
+    .slider:before {
+      content: ""; position: absolute; height: 20px; width: 20px;
+      right: 3px; bottom: 3px; background: #fff; border-radius: 50%;
+      transition: 0.25s; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .switch input:checked + .slider { background: var(--primary); }
+    .switch input:checked + .slider:before { transform: translateX(-22px); }
+
+    /* Results */
+    .sticky-results { position: sticky; top: 84px; }
+
+    .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+    @media (max-width: 520px) { .metrics-grid { grid-template-columns: 1fr; } }
+
+    .metric-box {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 12px; text-align: center;
+    }
+    .metric-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 4px; }
+    .metric-value { font-size: 1.08rem; font-weight: 700; color: var(--primary); }
+
+    .chart-bar {
+      height: 16px; border-radius: 999px; background: var(--surface-2);
+      overflow: hidden; display: flex; margin-bottom: 18px; border: 1px solid var(--border);
+    }
+    .chart-seg { height: 100%; transition: width 0.4s ease; }
+   .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { padding: 11px 10px; text-align: right; border-bottom: 1px solid var(--border); }
+    th { background: var(--surface-2); font-weight: 700; color: var(--text-muted); font-size: 0.8rem; white-space: nowrap; }
+    tr:last-child td { border-bottom: none; }
+
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: 6px; }
+    .frac-pill {
+      display: inline-block; padding: 2px 8px; border-radius: 7px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      font-weight: 700; direction: ltr;
+    }
+
+    .excluded-box {
+      background: var(--danger-soft);
+      border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
+      border-radius: 14px; padding: 14px; margin-bottom: 16px; display: none;
+    }
+    .excluded-title { font-size: 0.9rem; font-weight: 700; color: var(--danger); margin-bottom: 8px; }
+    .excluded-list { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 0.84rem; }
+
+    .empty-state { text-align: center; padding: 36px 16px; color: var(--text-muted); }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 8px; }
+
+    .fiqh-note {
+      font-size: 0.8rem; color: var(--text-muted); background: var(--surface-2);
+      padding: 12px 14px; border-radius: 12px; border-right: 4px solid var(--primary);
+    }
+
+    @media print {
+      .navbar, .presets-bar, .input-column, .no-print { display: none !important; }
+      .container { display: block; margin: 0; padding: 0; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+      body { background: #fff; color: #000; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-icon">م</div>
+        <div>
+          <div class="brand-title">میراث پرو <span style="font-size:0.78rem; color:var(--primary); font-weight:600;">(فقہِ حنفی)</span></div>
+          <div class="brand-sub">جدید اسلامی علمِ الفرائض و تقسیمِ وراثت کیلکولیٹر</div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn" onclick="resetAll()">↺ نیا مسئلہ</button>
+        <button class="btn" onclick="toggleTheme()" id="themeBtn">🌙 ڈارک موڈ</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ پرنٹ / PDF</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quick Presets -->
+  <div class="presets-bar">
+    <span class="presets-label">مشکل مسائل کے نمونے (آزمائیں):</span>
+    <button class="chip" onclick="loadPreset('radd')">مسئلہ رد (بیوی + 1 بیٹی)</button>
+    <button class="chip" onclick="loadPreset('umariyatayn')">عمریتین (شوہر + ماں + باپ)</button>
+    <button class="chip" onclick="loadPreset('awl')">مسئلہ عول (شوہر + 2 حقیقی بہنیں + ماں)</button>
+    <button class="chip" onclick="loadPreset('hajb')">مسئلہ حجب (باپ + بیٹا + بھائی + چچا)</button>
+    <button class="chip" onclick="loadPreset('takmilah')">تکملۃ الثلثین (1 بیٹی + 1 پوتی + چچا)</button>
+  </div>
+
+  <!-- Main Workspace -->
+  <main class="container">
+    <!-- Input Column -->
+    <section class="input-column">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">۱۔ میت اور ترکہ کی تفصیل</div>
+          <span class="badge badge-emerald">مرحلہ اول</span>
+        </div>
+
+        <div class="segmented">
+          <button class="seg-btn active" id="genderMale" onclick="setGender('male')">میت: مرد (شوہر / والد)</button>
+          <button class="seg-btn" id="genderFemale" onclick="setGender('female')">میت: عورت (بیوی / والدہ)</button>
+        </div>
+
+        <!-- Radd on Spouse Toggle (ON by default as requested) -->
+        <div class="setting-box">
+          <div>
+            <div class="setting-title">زوجین (شوہر / بیوی) پر رد کا اطلاق</div>
+            <div class="setting-sub">متاخرین علماء کے قول کے مطابق باقی ماندہ ترکہ پر شوہر اور بیوی کا بھی رد ہوگا</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="raddOnSpouse" checked onchange="calculate()">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="form-grid">
+          <div class="field full">
+            <label>کل ترکہ / مالیت (رقم درج کریں)</label>
+            <div class="input-wrap">
+              <input type="number" id="totalEstate" value="1200000" min="0" step="any" oninput="calculate()" placeholder="مثلاً 1000000" />
+              <select id="currency" onchange="calculate()">
+                <option value="₹">INR (₹)</option>
+                <option value="Rs.">PKR (Rs.)</option>
+                <option value="SAR">SAR (ریال)</option>
+                <option value="$">USD ($)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>تجہیز و تکفین (اخراجات)</label>
+            <div class="input-wrap">
+              <input type="number" id="funeral" value="0" min="0" step="any" oninput="calculate()" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>میت کے ذمے قرض</label>
+            <div class="input-wrap">
+              <input type="number" id="debts" value="0" min="0" step="any" oninput="calculate()" />
+            </div>
+          </div>
+
+          <div class="field full">
+            <label>
+              <span>وصیت (زیادہ سے زیادہ 1/3 تک نافذ ہوگی)</span>
+              <span id="maxWillHint" style="color:var(--primary);"></span>
+            </label>
+            <div class="input-wrap">
+              <input type="number" id="will" value="0" min="0" step="any" oninput="calculate()" />
+            </div>
+            <div class="will-warning" id="willWarning"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Heirs Selection -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">۲۔ ورثاء کا انتخاب کریں</div>
+          <span class="badge badge-info" id="selectedSummaryBadge">0 ورثاء منتخب</span>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('primary', this)">قریبی ورثاء <span class="tab-count" id="tc-primary">0</span></button>
+          <button class="tab-btn" onclick="switchTab('grand', this)">پوتے اور دادا دادی <span class="tab-count" id="tc-grand">0</span></button>
+          <button class="tab-btn" onclick="switchTab('siblings', this)">بھائی اور بہنیں <span class="tab-count" id="tc-siblings">0</span></button>
+          <button class="tab-btn" onclick="switchTab('extended', this)">دیگر عصبات <span class="tab-count" id="tc-extended">0</span></button>
+        </div>
+
+        <div id="heirsContainer" class="heirs-grid"></div>
+      </div>
+    </section>
+
+    <!-- Results Column -->
+    <section class="sticky-results">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">۳۔ شرعی تقسیم کا نتیجہ</div>
+          <span class="badge badge-emerald" id="caseTypeBadge">تیار</span>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <div class="metric-label">قابلِ تقسیم ترکہ</div>
+            <div class="metric-value" id="netEstateDisplay">0</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">تصحیح / کل حصے (مخرج)</div>
+            <div class="metric-value" id="tashihDisplay">—</div>
+          </div>
+          <div class="metric-box">
+            <div class="metric-label">مستحق ورثاء</div>
+            <div class="metric-value" id="activeHeirsDisplay">0</div>
+          </div>
+        </div>
+
+        <div class="chart-bar" id="chartBar"></div>
+
+        <div id="resultArea">
+          <div class="empty-state">
+            <div class="empty-icon">⚖️</div>
+            <div>تقسیم دیکھنے کے لیے دائیں جانب سے ورثاء منتخب کریں۔</div>
+          </div>
+        </div>
+
+        <div class="excluded-box" id="excludedBox">
+          <div class="excluded-title">🚫 محجوب (محروم ہونے والے) ورثاء اور وجہ</div>
+          <ul class="excluded-list" id="excludedList"></ul>
+        </div>
+
+        <div class="fiqh-note">
+          <strong>شرعی نوٹ:</strong> یہ تقسیم <strong>فقہِ حنفی</strong> کے اصولوں کے مطابق کی گئی ہے اور اس میں <strong>متاخرین علماء</strong> کے قول کے مطابق زوجین (شوہر/بیوی) پر رد کا آپشن فعال رکھا گیا ہے۔
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const gcd = (a, b) => {
+      a = Math.abs(a); b = Math.abs(b);
+      while (b) { [a, b] = [b, a % b]; }
+      return a || 1;
+    };
+    const lcm = (a, b) => (a && b) ? Math.abs(a * b) / gcd(a, b) : 1;
+
+    class Frac {
+      constructor(n, d = 1) {
+        if (d === 0) throw new Error("Zero denominator");
+        if (d < 0) { n = -n; d = -d; }
+        const g = gcd(n, d);
+        this.n = n / g;
+        this.d = d / g;
+      }
+      add(o) { return new Frac(this.n * o.d + o.n * this.d, this.d * o.d); }
+      sub(o) { return new Frac(this.n * o.d - o.n * this.d, this.d * o.d); }
+      mul(o) { return new Frac(this.n * o.n, this.d * o.d); }
+      div(o) { return new Frac(this.n * o.d, this.d * o.n); }
+      gt(o)  { return this.n * o.d > o.n * this.d; }
+      lt(o)  { return this.n * o.d < o.n * this.d; }
+      eq(o)  { return this.n * o.d === o.n * this.d; }
+      val()  { return this.n / this.d; }
+      str()  { return this.d === 1 ? `${this.n}` : `${this.n}/${this.d}`; }
+    }
+
+    const F = (n, d = 1) => new Frac(n, d);
+
+    const HEIRS_DEF = [
+      { id: 'husband',   name: 'شوہر',          sub: 'صاحبِ فرض (1/2 یا 1/4)',  tab: 'primary',  max: 1,  type: 'toggle', onlyFor: 'female' },
+      { id: 'wife',      name: 'بیوی / بیویاں',  sub: 'صاحبِ فرض (1/4 یا 1/8)',  tab: 'primary',  max: 4,  type: 'stepper', onlyFor: 'male' },
+      { id: 'son',       name: 'بیٹا',          sub: 'عصبہ بنفسہ',             tab: 'primary',  max: 20, type: 'stepper' },
+      { id: 'daughter',  name: 'بیٹی',          sub: 'صاحبِ فرض / عصبہ بالغیر', tab: 'primary',  max: 20, type: 'stepper' },
+      { id: 'father',    name: 'باپ',           sub: 'فرض (1/6) / عصبہ',        tab: 'primary',  max: 1,  type: 'toggle' },
+      { id: 'mother',    name: 'ماں',           sub: 'صاحبِ فرض (1/3 یا 1/6)',  tab: 'primary',  max: 1,  type: 'toggle' },
+
+      { id: 'sonSon',      name: 'پوتا (بیٹے کا بیٹا)',   sub: 'عصبہ بنفسہ',             tab: 'grand', max: 20, type: 'stepper' },
+      { id: 'sonDaughter', name: 'پوتی (بیٹے کی بیٹی)',   sub: 'فرض / تکملۃ الثلثین',     tab: 'grand', max: 20, type: 'stepper' },
+      { id: 'grandfather', name: 'دادا (جدِ صحیح)',       sub: 'باپ کے قائم مقام',        tab: 'grand', max: 1,  type: 'toggle' },
+      { id: 'patGM',       name: 'دادی (باپ کی ماں)',     sub: 'صاحبِ فرض (1/6)',        tab: 'grand', max: 1,  type: 'toggle' },
+      { id: 'matGM',       name: 'نانی (ماں کی ماں)',     sub: 'صاحبِ فرض (1/6)',        tab: 'grand', max: 1,  type: 'toggle' },
+
+      { id: 'fullBro',  name: 'حقیقی بھائی',  sub: 'سگا بھائی (عصبہ)',          tab: 'siblings', max: 20, type: 'stepper' },
+      { id: 'fullSis',  name: 'حقیقی بہن',    sub: 'سگی بہن (فرض / عصبہ)',     tab: 'siblings', max: 20, type: 'stepper' },
+      { id: 'patBro',   name: 'علاتی بھائی',  sub: 'باپ شریک بھائی (عصبہ)',     tab: 'siblings', max: 20, type: 'stepper' },
+      { id: 'patSis',   name: 'علاتی بہن',    sub: 'باپ شریک بہن',              tab: 'siblings', max: 20, type: 'stepper' },
+      { id: 'matBro',   name: 'اخیافی بھائی', sub: 'ماں شریک بھائی (1/6 یا 1/3)', tab: 'siblings', max: 20, type: 'stepper' },
+      { id: 'matSis',   name: 'اخیافی بہن',   sub: 'ماں شریک بہن (1/6 یا 1/3)',   tab: 'siblings', max: 20, type: 'stepper' },
+
+      { id: 'fullNephew', name: 'حقیقی بھتیجا',     sub: 'سگے بھائی کا بیٹا',     tab: 'extended', max: 20, type: 'stepper' },
+      { id: 'patNephew',  name: 'علاتی بھتیجا',     sub: 'باپ شریک بھائی کا بیٹا', tab: 'extended', max: 20, type: 'stepper' },
+      { id: 'fullUncle',  name: 'حقیقی چچا',        sub: 'باپ کا سگا بھائی',       tab: 'extended', max: 20, type: 'stepper' },
+      { id: 'patUncle',   name: 'علاتی چچا',        sub: 'باپ کا علاتی بھائی',     tab: 'extended', max: 20, type: 'stepper' },
+      { id: 'fullCousin', name: 'حقیقی چچا زاد',    sub: 'حقیقی چچا کا بیٹا',      tab: 'extended', max: 20, type: 'stepper' },
+      { id: 'patCousin',  name: 'علاتی چچا زاد',    sub: 'علاتی چچا کا بیٹا',      tab: 'extended', max: 20, type: 'stepper' }
+    ];
+
+    const COLORS = ['#059669', '#2563eb', '#d97706', '#7c3aed', '#db2777', '#0891b2', '#65a30d', '#ea580c', '#4f46e5', '#0d9488'];
+
+    let state = { gender: 'male', activeTab: 'primary', counts: {} };
+    HEIRS_DEF.forEach(h => state.counts[h.id] = 0);
+
+    function setGender(g) {
+      state.gender = g;
+      document.getElementById('genderMale').classList.toggle('active', g === 'male');
+      document.getElementById('genderFemale').classList.toggle('active', g === 'female');
+      if (g === 'male') state.counts.husband = 0;
+      if (g === 'female') state.counts.wife = 0;
+      renderHeirs();
+      calculate();
+    }
+
+    function switchTab(tab, btn) {
+      state.activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderHeirs();
+    }
+
+    function updateCount(id, delta) {
+      const def = HEIRS_DEF.find(h => h.id === id);
+      let next = (state.counts[id] || 0) + delta;
+      state.counts[id] = Math.max(0, Math.min(def.max, next));
+      renderHeirs();
+      calculate();
+    }
+
+    function toggleHeir(id, checked) {
+      state.counts[id] = checked ? 1 : 0;
+      renderHeirs();
+      calculate();
+    }
+
+    function renderHeirs() {
+      const container = document.getElementById('heirsContainer');
+      const items = HEIRS_DEF.filter(h => h.tab === state.activeTab && (!h.onlyFor || h.onlyFor === state.gender));
+
+      container.innerHTML = items.map(h => {
+        const val = state.counts[h.id] || 0;
+        const control = h.type === 'toggle'
+          ? `<label class="switch"><input type="checkbox" ${val > 0 ? 'checked' : ''} onchange="toggleHeir('${h.id}', this.checked)"><span class="slider"></span></label>`
+          : `<div class="stepper"><button class="step-btn" onclick="updateCount('${h.id}', 1)">+</button><span class="step-val">${val}</span><button class="step-btn" onclick="updateCount('${h.id}', -1)">−</button></div>`;
+        return `
+          <div class="heir-item ${val > 0 ? 'selected' : ''}">
+            <div class="heir-info">
+              <span class="heir-name">${h.name}</span>
+              <span class="heir-sub">${h.sub}</span>
+            </div>
+            ${control}
+          </div>`;
+      }).join('');
+
+      ['primary', 'grand', 'siblings', 'extended'].forEach(t => {
+        const sum = HEIRS_DEF.filter(h => h.tab === t).reduce((acc, h) => acc + (state.counts[h.id] || 0), 0);
+        const el = document.getElementById('tc-' + t);
+        el.textContent = sum;
+        el.classList.toggle('show', sum > 0);
+      });
+
+      const totalSelected = Object.values(state.counts).reduce((a, b) => a + b, 0);
+      document.getElementById('selectedSummaryBadge').textContent = `${totalSelected} ورثاء منتخب`;
+    }
+
+    function solveInheritance(c, raddOnSpouse) {
+      const hasMaleDesc = c.son > 0 || c.sonSon > 0;
+      const hasFemaleDesc = c.daughter > 0 || c.sonDaughter > 0;
+      const hasAnyDesc = hasMaleDesc || hasFemaleDesc;
+      const totalSiblings = c.fullBro + c.fullSis + c.patBro + c.patSis + c.matBro + c.matSis;
+
+      const fixed = [];
+      const excluded = [];
+      let asabaCandidates = [];
+
+      const addEx = (id, reason) => {
+        if (c[id] > 0) {
+          const def = HEIRS_DEF.find(h => h.id === id);
+          excluded.push({ name: def.name, count: c[id], reason });
+        }
+      };
+
+      const addFixed = (id, frac, role, isSpouse = false) => {
+        const def = HEIRS_DEF.find(h => h.id === id);
+        fixed.push({ id, name: def.name, count: c[id], frac, role, isSpouse });
+      };
+
+      // 1. SPOUSE
+      let spouseFrac = F(0);
+      if (c.husband > 0) {
+        spouseFrac = hasAnyDesc ? F(1, 4) : F(1, 2);
+        addFixed('husband', spouseFrac, hasAnyDesc ? 'فرض (اولاد کی موجودگی)' : 'فرض (اولاد نہ ہونے پر)', true);
+      }
+      if (c.wife > 0) {
+        spouseFrac = hasAnyDesc ? F(1, 8) : F(1, 4);
+        addFixed('wife', spouseFrac, hasAnyDesc ? 'فرض (اولاد کی موجودگی)' : 'فرض (اولاد نہ ہونے پر)', true);
+      }
+     // 2. MOTHER & UMARIYATAYN
+      let isUmariyatayn = false;
+      if (c.mother > 0) {
+        if (hasAnyDesc || totalSiblings >= 2) {
+          addFixed('mother', F(1, 6), hasAnyDesc ? 'فرض (اولاد کی موجودگی)' : 'فرض (2 یا زائد بہن بھائی)');
+        } else if ((c.husband > 0 || c.wife > 0) && c.father > 0) {
+          isUmariyatayn = true;
+          const remAfterSpouse = F(1).sub(spouseFrac);
+          addFixed('mother', remAfterSpouse.mul(F(1, 3)), 'عمریتین (باقی کا 1/3)');
+        } else {
+          addFixed('mother', F(1, 3), 'فرض (کامل ثلث)');
+        }
+      }
+
+      // 3. FATHER
+      if (c.father > 0) {
+        if (hasMaleDesc) {
+          addFixed('father', F(1, 6), 'فرض (مذکر اولاد کی وجہ سے)');
+        } else if (hasFemaleDesc) {
+          addFixed('father', F(1, 6), 'فرض + عصبہ');
+          asabaCandidates.push({ priority: 3, type: 'single', id: 'father', name: 'باپ', count: 1, alsoFixed: true });
+        } else {
+          asabaCandidates.push({ priority: 3, type: 'single', id: 'father', name: 'باپ', count: 1 });
+        }
+      }
+
+      // 4. GRANDFATHER
+      if (c.grandfather > 0) {
+        if (c.father > 0) {
+          addEx('grandfather', 'باپ کی موجودگی کی وجہ سے محجوب');
+        } else if (hasMaleDesc) {
+          addFixed('grandfather', F(1, 6), 'فرض (مذکر اولاد کی وجہ سے)');
+        } else if (hasFemaleDesc) {
+          addFixed('grandfather', F(1, 6), 'فرض + عصبہ');
+          asabaCandidates.push({ priority: 4, type: 'single', id: 'grandfather', name: 'دادا', count: 1, alsoFixed: true });
+        } else {
+          asabaCandidates.push({ priority: 4, type: 'single', id: 'grandfather', name: 'دادا', count: 1 });
+        }
+      }
+
+      // 5. GRANDMOTHERS
+      const activeGMs = [];
+      if (c.matGM > 0) {
+        if (c.mother > 0) addEx('matGM', 'ماں کی موجودگی کی وجہ سے محجوب');
+        else activeGMs.push('matGM');
+      }
+      if (c.patGM > 0) {
+        if (c.mother > 0) addEx('patGM', 'ماں کی موجودگی کی وجہ سے محجوب');
+        else if (c.father > 0) addEx('patGM', 'باپ کی موجودگی کی وجہ سے محجوب');
+        else activeGMs.push('patGM');
+      }
+      if (activeGMs.length === 1) addFixed(activeGMs[0], F(1, 6), 'فرض (جدہ)');
+      else if (activeGMs.length === 2) {
+        addFixed('matGM', F(1, 12), 'فرض (1/6 میں شریک)');
+        addFixed('patGM', F(1, 12), 'فرض (1/6 میں شریک)');
+      }
+
+      // 6. SONS & DAUGHTERS
+      if (c.son > 0) {
+        if (c.daughter > 0) asabaCandidates.push({ priority: 1, type: 'mixed', maleId: 'son', femaleId: 'daughter', mCount: c.son, fCount: c.daughter, role: 'عصبہ بالغیر (2:1)' });
+        else asabaCandidates.push({ priority: 1, type: 'single', id: 'son', name: 'بیٹا', count: c.son });
+      } else if (c.daughter > 0) {
+        addFixed('daughter', c.daughter === 1 ? F(1, 2) : F(2, 3), c.daughter === 1 ? 'فرض (واحد بیٹی)' : 'فرض (متعدد بیٹیاں)');
+      }
+
+      // 7. GRANDCHILDREN
+      if (c.son > 0) {
+        addEx('sonSon', 'بیٹے کی موجودگی کی وجہ سے محجوب');
+        addEx('sonDaughter', 'بیٹے کی موجودگی کی وجہ سے محجوب');
+      } else {
+        if (c.sonSon > 0) {
+          if (c.sonDaughter > 0) asabaCandidates.push({ priority: 2, type: 'mixed', maleId: 'sonSon', femaleId: 'sonDaughter', mCount: c.sonSon, fCount: c.sonDaughter, role: 'عصبہ بالغیر (2:1)' });
+          else asabaCandidates.push({ priority: 2, type: 'single', id: 'sonSon', name: 'پوتا', count: c.sonSon });
+        } else if (c.sonDaughter > 0) {
+          if (c.daughter >= 2) addEx('sonDaughter', '2 یا زائد بیٹیوں کی موجودگی اور پوتا نہ ہونے کی وجہ سے محجوب');
+          else if (c.daughter === 1) addFixed('sonDaughter', F(1, 6), 'فرض (تکملۃ الثلثین)');
+          else addFixed('sonDaughter', c.sonDaughter === 1 ? F(1, 2) : F(2, 3), 'فرض (بیٹی نہ ہونے پر)');
+        }
+      }
+
+      // 8. MATERNAL SIBLINGS
+      const matTotal = c.matBro + c.matSis;
+      if (matTotal > 0) {
+        if (hasAnyDesc || c.father > 0 || c.grandfather > 0) {
+          const reason = hasAnyDesc ? 'اولاد کی موجودگی کی وجہ سے محجوب' : (c.father > 0 ? 'باپ کی موجودگی کی وجہ سے محجوب' : 'دادا کی موجودگی کی وجہ سے محجوب');
+          addEx('matBro', reason); addEx('matSis', reason);
+        } else {
+          const totalMatFrac = matTotal === 1 ? F(1, 6) : F(1, 3);
+          if (c.matBro > 0) addFixed('matBro', totalMatFrac.mul(F(c.matBro, matTotal)), 'فرض (اخیافی برابر شریک)');
+          if (c.matSis > 0) addFixed('matSis', totalMatFrac.mul(F(c.matSis, matTotal)), 'فرض (اخیافی برابر شریک)');
+        }
+      }
+
+      // 9. FULL & PATERNAL SIBLINGS
+      const sibBlockedBy = hasMaleDesc ? 'مذکر اولاد کی موجودگی' : (c.father > 0 ? 'باپ کی موجودگی' : (c.grandfather > 0 ? 'دادا (فقہ حنفی) کی موجودگی' : null));
+      if (sibBlockedBy) {
+        ['fullBro', 'fullSis', 'patBro', 'patSis'].forEach(id => addEx(id, sibBlockedBy + ' کی وجہ سے محجوب'));
+      } else {
+        let fullSisAsabaMaalGhair = false;
+        if (c.fullBro > 0) {
+          if (c.fullSis > 0) asabaCandidates.push({ priority: 5, type: 'mixed', maleId: 'fullBro', femaleId: 'fullSis', mCount: c.fullBro, fCount: c.fullSis, role: 'عصبہ بالغیر (2:1)' });
+          else asabaCandidates.push({ priority: 5, type: 'single', id: 'fullBro', name: 'حقیقی بھائی', count: c.fullBro });
+        } else if (c.fullSis > 0) {
+          if (hasFemaleDesc) {
+            fullSisAsabaMaalGhair = true;
+            asabaCandidates.push({ priority: 6, type: 'single', id: 'fullSis', name: 'حقیقی بہن', count: c.fullSis, role: 'عصبہ مع الغیر' });
+          } else {
+            addFixed('fullSis', c.fullSis === 1 ? F(1, 2) : F(2, 3), c.fullSis === 1 ? 'فرض (واحد حقیقی بہن)' : 'فرض (متعدد حقیقی بہنیں)');
+          }
+        }
+
+        if (c.fullBro > 0 || fullSisAsabaMaalGhair) {
+          const r = c.fullBro > 0 ? 'حقیقی بھائی کی موجودگی کی وجہ سے محجوب' : 'حقیقی بہن (عصبہ مع الغیر) کی وجہ سے محجوب';
+          addEx('patBro', r); addEx('patSis', r);
+        } else {
+          if (c.patBro > 0) {
+            if (c.patSis > 0) asabaCandidates.push({ priority: 7, type: 'mixed', maleId: 'patBro', femaleId: 'patSis', mCount: c.patBro, fCount: c.patSis, role: 'عصبہ بالغیر (2:1)' });
+            else asabaCandidates.push({ priority: 7, type: 'single', id: 'patBro', name: 'علاتی بھائی', count: c.patBro });
+          } else if (c.patSis > 0) {
+            if (hasFemaleDesc) asabaCandidates.push({ priority: 8, type: 'single', id: 'patSis', name: 'علاتی بہن', count: c.patSis, role: 'عصبہ مع الغیر' });
+            else if (c.fullSis >= 2) addEx('patSis', '2 یا زائد حقیقی بہنوں کی موجودگی اور علاتی بھائی نہ ہونے کی وجہ سے محجوب');
+            else if (c.fullSis === 1) addFixed('patSis', F(1, 6), 'فرض (تکملۃ الثلثین)');
+            else addFixed('patSis', c.patSis === 1 ? F(1, 2) : F(2, 3), 'فرض (علاتی بہن)');
+          }
+        }
+      }
+
+      // 10. EXTENDED ASABAT
+      [
+        { id: 'fullNephew', p: 9 }, { id: 'patNephew', p: 10 },
+        { id: 'fullUncle', p: 11 }, { id: 'patUncle', p: 12 },
+        { id: 'fullCousin', p: 13 }, { id: 'patCousin', p: 14 }
+      ].forEach(e => {
+        if (c[e.id] > 0) {
+          const def = HEIRS_DEF.find(h => h.id === e.id);
+          asabaCandidates.push({ priority: e.p, type: 'single', id: e.id, name: def.name, count: c[e.id] });
+        }
+      });
+
+      asabaCandidates.sort((a, b) => a.priority - b.priority);
+      const activeAsaba = asabaCandidates.length > 0 ? asabaCandidates[0] : null;
+
+      if (asabaCandidates.length > 1) {
+        const winnerName = activeAsaba.type === 'mixed' ? HEIRS_DEF.find(h => h.id === activeAsaba.maleId).name : activeAsaba.name;
+        for (let i = 1; i < asabaCandidates.length; i++) {
+          const loser = asabaCandidates[i];
+          if (loser.type === 'mixed') {
+            addEx(loser.maleId, `قریبی عصبہ (${winnerName}) کی موجودگی کی وجہ سے محجوب`);
+            addEx(loser.femaleId, `قریبی عصبہ (${winnerName}) کی موجودگی کی وجہ سے محجوب`);
+          } else {
+            addEx(loser.id, `قریبی عصبہ (${winnerName}) کی موجودگی کی وجہ سے محجوب`);
+          }
+        }
+      }
+
+      // RESOLUTION
+      let totalFixed = fixed.reduce((acc, f) => acc.add(f.frac), F(0));
+      let results = [];
+      let caseType = 'عادل (مکمل تقسیم)';
+      let caseBadge = 'badge-emerald';
+
+      if (fixed.length === 0 && !activeAsaba) {
+        return { results: [], excluded, caseType: 'کوئی وارث منتخب نہیں', caseBadge: 'badge-info', tashih: 0 };
+      }
+
+      if (totalFixed.gt(F(1))) {
+        caseType = `مسئلہ عول (حصے ${totalFixed.str()} سے گھٹائے گئے)`;
+        caseBadge = 'badge-amber';
+        fixed.forEach(f => results.push({ id: f.id, name: f.name, count: f.count, frac: f.frac.div(totalFixed), role: f.role + ' (عول)' }));
+        if (activeAsaba && !activeAsaba.alsoFixed) {
+          const msg = 'اصحابِ فرائض میں پورا مال تقسیم ہو گیا (باقی صفر)';
+          if (activeAsaba.type === 'mixed') { addEx(activeAsaba.maleId, msg); addEx(activeAsaba.femaleId, msg); }
+          else addEx(activeAsaba.id, msg);
+        }
+      } else if (totalFixed.lt(F(1))) {
+        const remainder = F(1).sub(totalFixed);
+
+        if (activeAsaba) {
+          if (isUmariyatayn) { caseType = 'مسئلہ عمریتین (غراوین)'; caseBadge = 'badge-info'; }
+          fixed.forEach(f => {
+            if (activeAsaba.alsoFixed && activeAsaba.id === f.id) {
+              results.push({ id: f.id, name: f.name, count: f.count, frac: f.frac.add(remainder), role: 'فرض (1/6) + عصبہ' });
+            } else {
+              results.push({ id: f.id, name: f.name, count: f.count, frac: f.frac, role: f.role });
+            }
+          });
+
+          if (!activeAsaba.alsoFixed) {
+            if (activeAsaba.type === 'mixed') {
+              const totalParts = activeAsaba.mCount * 2 + activeAsaba.fCount;
+              const mDef = HEIRS_DEF.find(h => h.id === activeAsaba.maleId);
+              const fDef = HEIRS_DEF.find(h => h.id === activeAsaba.femaleId);
+              results.push({ id: activeAsaba.maleId, name: mDef.name, count: activeAsaba.mCount, frac: remainder.mul(F(activeAsaba.mCount * 2, totalParts)), role: activeAsaba.role });
+              results.push({ id: activeAsaba.femaleId, name: fDef.name, count: activeAsaba.fCount, frac: remainder.mul(F(activeAsaba.fCount, totalParts)), role: activeAsaba.role });
+            } else {
+              results.push({ id: activeAsaba.id, name: activeAsaba.name, count: activeAsaba.count, frac: remainder, role: activeAsaba.role || 'عصبہ (باقی ماندہ)' });
+            }
+          }
+        } else {
+          // --- RADD (رد) ---
+          const nonSpouse = fixed.filter(f => !f.isSpouse);
+          const spouse = fixed.find(f => f.isSpouse);
+
+          if (raddOnSpouse) {
+            // متاخرین کا قول: زوجین سمیت تمام اصحابِ فرائض پر رد ہوگا
+            caseType = spouse ? 'مسئلہ رد (زوجین سمیت تمام پر رد)' : 'مسئلہ رد (اصحابِ فرائض پر رد)';
+            caseBadge = 'badge-info';
+            fixed.forEach(f => {
+              results.push({
+                id: f.id, name: f.name, count: f.count,
+                frac: f.frac.div(totalFixed),
+                role: 'فرض + رد'
+              });
+            });
+          } else {
+            // جمہور کا قول: دیگر اصحاب فرائض کی موجودگی میں زوجین پر رد نہیں
+            if (nonSpouse.length > 0) {
+              caseType = 'مسئلہ رد (زوجین کے علاوہ اصحابِ فرائض پر)';
+              caseBadge = 'badge-info';
+              const nonSpouseSum = nonSpouse.reduce((acc, f) => acc.add(f.frac), F(0));
+              const availForNonSpouse = spouse ? F(1).sub(spouse.frac) : F(1);
+
+              if (spouse) results.push({ id: spouse.id, name: spouse.name, count: spouse.count, frac: spouse.frac, role: spouse.role + ' (رد نہیں)' });
+              nonSpouse.forEach(f => results.push({ id: f.id, name: f.name, count: f.count, frac: f.frac.div(nonSpouseSum).mul(availForNonSpouse), role: 'فرض + رد' }));
+            } else if (spouse) {
+              caseType = 'رد علی الزوجین (کوئی اور وارث نہیں)';
+              caseBadge = 'badge-info';
+              results.push({ id: spouse.id, name: spouse.name, count: spouse.count, frac: F(1), role: 'مکمل ترکہ (رد)' });
+            }
+          }
+        }
+      } else {
+        fixed.forEach(f => results.push({ id: f.id, name: f.name, count: f.count, frac: f.frac, role: f.role }));
+        if (activeAsaba && !activeAsaba.alsoFixed) {
+          const msg = 'اصحابِ فرائض میں پورا مال تقسیم ہو گیا (باقی صفر)';
+          if (activeAsaba.type === 'mixed') { addEx(activeAsaba.maleId, msg); addEx(activeAsaba.femaleId, msg); }
+          else addEx(activeAsaba.id, msg);
+        }
+      }
+
+      // TASHIH
+      let tashih = 1;
+      results.forEach(r => { tashih = lcm(tashih, r.frac.div(F(r.count)).d); });
+
+      results = results.map((r, idx) => {
+        const perPersonFrac = r.frac.div(F(r.count));
+        const sihamPerPerson = Math.round(perPersonFrac.val() * tashih);
+        return {
+          ...r, perPersonFrac, sihamPerPerson,
+          totalSiham: sihamPerPerson * r.count,
+          percent: r.frac.val() * 100,
+          color: COLORS[idx % COLORS.length]
+        };
+      });
+
+      return { results, excluded, caseType, caseBadge, tashih };
+    }
+
+    const fmtNum = (n) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(n);
+
+    function calculate() {
+      const total = Math.max(0, parseFloat(document.getElementById('totalEstate').value) || 0);
+      const funeral = Math.max(0, parseFloat(document.getElementById('funeral').value) || 0);
+      const debts = Math.max(0, parseFloat(document.getElementById('debts').value) || 0);
+      const rawWill = Math.max(0, parseFloat(document.getElementById('will').value) || 0);
+      const cur = document.getElementById('currency').value;
+      const raddOnSpouse = document.getElementById('raddOnSpouse').checked;
+
+      const afterDebts = Math.max(0, total - funeral - debts);
+      const maxWill = afterDebts / 3;
+      const validWill = Math.min(rawWill, maxWill);
+      const netEstate = Math.max(0, afterDebts - validWill);
+
+      document.getElementById('maxWillHint').textContent = afterDebts > 0 ? `زیادہ سے زیادہ: ${cur} ${fmtNum(maxWill)}` : '';
+      const warnEl = document.getElementById('willWarning');
+      if (rawWill > maxWill && afterDebts > 0) {
+        warnEl.style.display = 'block';
+        warnEl.textContent = `⚠️ شرعی اصول کے مطابق وصیت صرف ایک تہائی (${cur} ${fmtNum(maxWill)}) تک نافذ کی گئی ہے۔ اضافی وصیت تمام ورثاء کی اجازت پر موقوف ہے۔`;
+      } else {
+        warnEl.style.display = 'none';
+      }
+
+      document.getElementById('netEstateDisplay').textContent = `${cur} ${fmtNum(netEstate)}`;
+
+      const out = solveInheritance(state.counts, raddOnSpouse);
+
+      const badgeEl = document.getElementById('caseTypeBadge');
+      badgeEl.className = `badge ${out.caseBadge}`;
+      badgeEl.textContent = out.caseType;
+
+      document.getElementById('tashihDisplay').textContent = out.tashih > 0 ? `${out.tashih} حصے` : '—';
+      document.getElementById('activeHeirsDisplay').textContent = `${out.results.reduce((acc, r) => acc + r.count, 0)} افراد`;
+
+      document.getElementById('chartBar').innerHTML = out.results.map(r =>
+        `<div class="chart-seg" style="width:${r.percent}%; background:${r.color};" title="${r.name}: ${r.percent.toFixed(1)}%"></div>`
+      ).join('');
+
+      const resultArea = document.getElementById('resultArea');
+      if (out.results.length === 0) {
+        resultArea.innerHTML = `<div class="empty-state"><div class="empty-icon">⚖️</div><div>تقسیم دیکھنے کے لیے دائیں جانب سے ورثاء منتخب کریں۔</div></div>`;
+      } else {
+        resultArea.innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>وارث</th><th>تعداد</th><th>شرعی حیثیت</th>
+                  <th>حصہ (کسر)</th><th>فی کس حصے</th><th>فی کس رقم</th><th>کل رقم</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${out.results.map(r => {
+                  const totalAmt = netEstate * r.frac.val();
+                  const perAmt = totalAmt / r.count;
+                  return `
+                    <tr>
+                      <td style="font-weight:700; white-space:nowrap;"><span class="dot" style="background:${r.color};"></span>${r.name}</td>
+                      <td>${r.count}</td>
+                      <td style="font-size:0.8rem; color:var(--text-muted);">${r.role}</td>
+                      <td><span class="frac-pill">${r.frac.str()}</span> <span style="font-size:0.75rem; color:var(--text-muted);">(${r.percent.toFixed(1)}%)</span></td>
+                      <td style="font-weight:700;">${r.sihamPerPerson} / ${out.tashih}</td>
+                      <td style="font-weight:700; color:var(--primary); white-space:nowrap;">${cur} ${fmtNum(perAmt)}</td>
+                      <td style="font-weight:700; white-space:nowrap;">${cur} ${fmtNum(totalAmt)}</td>
+                    </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>`;
+      }
+     const exBox = document.getElementById('excludedBox');
+      const exList = document.getElementById('excludedList');
+      if (out.excluded.length > 0) {
+        exBox.style.display = 'block';
+        exList.innerHTML = out.excluded.map(e => `<li><strong>${e.name} (${e.count}):</strong> ${e.reason}</li>`).join('');
+      } else {
+        exBox.style.display = 'none';
+      }
+    }
+
+    function resetAll() {
+      HEIRS_DEF.forEach(h => state.counts[h.id] = 0);
+      document.getElementById('funeral').value = 0;
+      document.getElementById('debts').value = 0;
+      document.getElementById('will').value = 0;
+      renderHeirs();
+      calculate();
+    }
+
+    function loadPreset(name) {
+      resetAll();
+      document.getElementById('totalEstate').value = 1200000;
+      if (name === 'umariyatayn') { setGender('female'); state.counts.husband = 1; state.counts.mother = 1; state.counts.father = 1; }
+      else if (name === 'awl') { setGender('female'); state.counts.husband = 1; state.counts.fullSis = 2; state.counts.mother = 1; }
+      else if (name === 'radd') { setGender('male'); state.counts.wife = 1; state.counts.daughter = 1; }
+      else if (name === 'hajb') { setGender('male'); state.counts.father = 1; state.counts.son = 1; state.counts.fullBro = 2; state.counts.fullUncle = 1; }
+      else if (name === 'takmilah') { setGender('male'); state.counts.daughter = 1; state.counts.sonDaughter = 1; state.counts.fullUncle = 1; }
+      renderHeirs();
+      calculate();
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 ڈارک موڈ' : '☀️ لائٹ موڈ';
+    }
+
+    renderHeirs();
+    calculate();
+  </script>
+</body>
+</html>
